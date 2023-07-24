@@ -20,7 +20,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const postsToCreate = ops.posts.creates
       .filter((create) => {
         const langs = (create.record?.langs ?? []) as string[]
-        // only alf-related posts
+        // only posts in belarusian
         return langs.includes('be')
       })
       .map((create) => {
