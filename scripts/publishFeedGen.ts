@@ -12,7 +12,7 @@ const run = async () => {
 
   // YOUR bluesky password, or preferably an App Password (found in your client settings)
   // Ex: abcd-1234-efgh-5678
-  const password = 'c6lp-afka-cmz2-mycl'
+  const password = process.env.APP_PASSWORD ?? ''
 
   // A short name for the record that will show in urls
   // Lowercase with no spaces.
@@ -21,7 +21,7 @@ const run = async () => {
 
   // A display name for your feed
   // Ex: What's Hot
-  const displayName = '⬜️🟥⬜ BEL Cluster'
+  const displayName = '⬜️🟥⬜️ BEL Cluster'
 
   // (Optional) A description of your feed
   // Ex: Top trending content from the whole network
