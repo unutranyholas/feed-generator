@@ -21,7 +21,7 @@ FROM base as build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
-    apt-get install -y python-is-python3 pkg-config build-essential 
+    apt-get install -y python-is-python3 pkg-config build-essential
 
 # Install node modules
 COPY --link package.json pnpm-lock.yaml yarn.lock ./
@@ -40,8 +40,11 @@ RUN pnpm prune --prod
 # Final stage for app image
 FROM base
 
+RUN apt-get update -y && apt-get install -y ca-certificates fuse3 sqlite3
+
 # Copy built application
 COPY --from=build /app /app
+COPY --from=flyio/litefs:0.5 /usr/local/bin/litefs /usr/local/bin/litefs
 
 # Setup sqlite3 on a separate volume
 RUN mkdir -p /data
@@ -50,4 +53,4 @@ ENV DATABASE_URL="file:///data/feed.db"
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "pnpm", "run", "start" ]
+ENTRYPOINT litefs mount

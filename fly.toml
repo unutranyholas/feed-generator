@@ -1,22 +1,23 @@
-# fly.toml app configuration file generated for feed-generator-be on 2023-07-24T11:06:08+02:00
+# fly.toml app configuration file generated for feed-generator-be-2 on 2023-07-27T20:27:57+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "feed-generator-be"
+app = "feed-generator-be-2"
 primary_region = "waw"
-
-[[mounts]]
-  source = "data"
-  destination = "/data"
 
 [http_service]
   internal_port = 3000
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
   processes = ["app"]
+
+[mounts]
+  source = "litefs"
+  destination = "/var/lib/litefs"
+
 
 [env]
   # Whichever port you want to run this on
@@ -24,11 +25,11 @@ primary_region = "waw"
   # Change this to use a different bind address
   FEEDGEN_LISTENHOST="0.0.0.0"
   # Set to something like db.sqlite to store persistently
-  FEEDGEN_SQLITE_LOCATION="/data/feed.db"
+  FEEDGEN_SQLITE_LOCATION="/litefs/feed.db"
   # Don't change unless you're working in a different environment than the primary Bluesky network
   FEEDGEN_SUBSCRIPTION_ENDPOINT="wss://bsky.social"
   # Set this to the hostname that you intend to run the service at
-  FEEDGEN_HOSTNAME="feed-generator-be.fly.dev"
+  FEEDGEN_HOSTNAME="feed-generator-be-2.fly.dev"
   # Set this to the DID of the account you'll use to publish the feed
   # You can find your accounts DID by going to
   # https://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=${YOUR_HANDLE}
